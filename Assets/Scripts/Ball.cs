@@ -41,11 +41,24 @@ public class Ball : MonoBehaviour
         {
             ResetPosition();
             SetDirection();
+
+            gameManager.OnLifeLost();
         }
         else if (collision.gameObject.CompareTag("Block"))
         {
             Destroy(collision.gameObject);
             gameManager.OnBlockDestroyed();
+
+            if (gameManager.blocksremaining == 1)
+            {
+                GameObject lastblock = GameObject.FindGameObjectWithTag("Block");
+
+                Vector2 direction = lastblock.transform.position = transform.position;
+                direction.Normalize();
+
+                body.velocity = direction * movespeed;
+
+            }
         }
     }
 
